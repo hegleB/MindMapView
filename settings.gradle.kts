@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MindMapView"
 include(":app")
- 
+include(":library")
