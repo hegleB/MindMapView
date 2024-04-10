@@ -30,7 +30,6 @@ class NodeView @JvmOverloads constructor(
     private val drawInfo = DrawInfo(context)
     private var attachedNode: Node? = null
     private val rightLayoutManager = MindMapRightLayoutManager()
-    private val paint = Paint()
     private val mindMapAnimator = MindMapAnimator()
 
     override fun onDraw(canvas: Canvas) {
@@ -268,6 +267,5 @@ class NodeView @JvmOverloads constructor(
 
     companion object {
         private const val ATTACH_CIRCLE_NODE_RANGE_VALUE = 15f
-        private const val ROUNDED_CORNER_RADIUS = 8f
     }
 }

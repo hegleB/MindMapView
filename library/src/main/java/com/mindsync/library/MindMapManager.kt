@@ -1,17 +1,7 @@
 package com.mindsync.mindmap
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.content.Context
-import android.util.Log
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
-import com.mindsync.mindmap.data.CircleNode
 import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.data.RectanglePath
 import com.mindsync.mindmap.data.Tree
 import com.mindsync.mindmap.layout.MeasureTextSize
 import com.mindsync.mindmap.layout.MindMapRightLayoutManager

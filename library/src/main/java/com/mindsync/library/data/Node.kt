@@ -1,8 +1,6 @@
 package com.mindsync.mindmap.data
 
 import com.mindsync.mindmap.util.Dp
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
 
 sealed class Node(
     open val id: String,

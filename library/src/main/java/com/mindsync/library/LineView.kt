@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import boostcamp.and07.mindsync.ui.view.model.DrawInfo
 import com.mindsync.mindmap.data.CircleNode

@@ -13,11 +13,8 @@ import com.mindsync.mindmap.animator.TreeChangeAnimation
 import com.mindsync.mindmap.command.AddNodeCommand
 import com.mindsync.mindmap.command.RemoveNodeCommand
 import com.mindsync.mindmap.command.UpdateNodeCommand
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.RectangleNode
 import com.mindsync.mindmap.data.Tree
 import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.NodeGenerator
 import com.mindsync.mindmap.util.toPx
 
 
