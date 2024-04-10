@@ -15,6 +15,7 @@ import com.mindsync.mindmap.command.RemoveNodeCommand
 import com.mindsync.mindmap.command.UpdateNodeCommand
 import com.mindsync.mindmap.data.CircleNode
 import com.mindsync.mindmap.data.RectangleNode
+import com.mindsync.mindmap.data.Tree
 import com.mindsync.mindmap.util.Dp
 import com.mindsync.mindmap.util.NodeGenerator
 import com.mindsync.mindmap.util.toPx
@@ -244,7 +245,7 @@ class MindMapView @JvmOverloads constructor(
             val updateNodeCommand = UpdateNodeCommand(mindMapManager, node, description)
             updateNodeCommand.execute()
             mindMapAnimator.setAnimationStrategy(
-                TreeChangeAnimation(mindMapManager, { updateNodeAndLine() })
+                TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
             )
             mindMapAnimator.executeAnimation()
             updateNodeAndLine()
