@@ -251,6 +251,13 @@ class MindMapView @JvmOverloads constructor(
         }
     }
 
+    fun updateTree(tree: Tree) {
+        mindMapManager.update(tree)
+        mindMapAnimator.setAnimationStrategy(
+            TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
+        )
+        mindMapAnimator.executeAnimation()
+    }
     private fun updateNodeAndLine() {
         nodeView.update()
         lineView.update()
