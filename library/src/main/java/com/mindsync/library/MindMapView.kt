@@ -258,6 +258,11 @@ class MindMapView @JvmOverloads constructor(
         )
         mindMapAnimator.executeAnimation()
     }
+
+    fun getTree(): Tree {
+        return mindMapManager.getTree()
+    }
+
     private fun updateNodeAndLine() {
         nodeView.update()
         lineView.update()
