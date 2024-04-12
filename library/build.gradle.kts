@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    `maven-publish`
 }
 
 android {
@@ -41,4 +42,21 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-group="com.github.hegleB"
+publishing {
+    publications {
+        afterEvaluate {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.hegleB"
+                artifactId = "MindMapView"
+                version = "0.0.4"
+            }
+            create<MavenPublication>("debug") {
+                from(components["release"])
+                groupId = "com.github.hegleB"
+                artifactId = "MindMapView"
+                version = "0.0.4"
+            }
+        }
+    }
+}
