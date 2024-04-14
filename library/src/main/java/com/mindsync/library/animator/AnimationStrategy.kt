@@ -1,4 +1,4 @@
-package com.mindsync.mindmap.animator
+package com.mindsync.library.animator
 
 interface AnimationStrategy {
     fun animate()

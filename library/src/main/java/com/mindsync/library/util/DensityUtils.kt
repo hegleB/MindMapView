@@ -1,8 +1,10 @@
-package com.mindsync.mindmap.util
+package com.mindsync.library.util
 
 import android.content.Context
 import android.util.TypedValue
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Dp(val dpVal: Float) {
     operator fun plus(dpValue: Dp): Dp {
         return Dp(dpVal + dpValue.dpVal)

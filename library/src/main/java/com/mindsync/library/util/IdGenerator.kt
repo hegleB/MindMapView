@@ -1,4 +1,4 @@
-package bcom.mindsync.mindmap.util
+package com.mindsync.library.util
 
 import java.util.UUID
 

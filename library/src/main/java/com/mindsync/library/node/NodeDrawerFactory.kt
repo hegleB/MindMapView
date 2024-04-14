@@ -1,11 +1,11 @@
-package com.mindsync.mindmap.node
+package com.mindsync.library.node
 
 import android.content.Context
-import boostcamp.and07.mindsync.ui.view.model.DrawInfo
 import com.mindsync.library.R
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
+import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.model.DrawInfo
 
 class NodeDrawerFactory(
     private val node: Node,

@@ -1,14 +1,14 @@
-package com.mindsync.mindmap.node
+package com.mindsync.library.node
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import boostcamp.and07.mindsync.ui.view.model.DrawInfo
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.toPx
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.model.DrawInfo
+import com.mindsync.library.util.Dp
+import com.mindsync.library.util.toPx
 
 class RectangleNodeDrawer(
     private val node: RectangleNode,

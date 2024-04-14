@@ -1,25 +1,22 @@
-package com.mindsync.mindmap
+package com.mindsync.library
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import boostcamp.and07.mindsync.ui.view.model.DrawInfo
-import com.mindsync.mindmap.animator.MindMapAnimator
-import com.mindsync.mindmap.animator.TreeChangeAnimation
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.layout.MindMapRightLayoutManager
-import com.mindsync.mindmap.node.NodeDrawerFactory
-import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.Px
-import com.mindsync.mindmap.util.toDp
-import com.mindsync.mindmap.util.toPx
+import com.mindsync.library.animator.MindMapAnimator
+import com.mindsync.library.animator.TreeChangeAnimation
+import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.layout.MindMapRightLayoutManager
+import com.mindsync.library.model.DrawInfo
+import com.mindsync.library.node.NodeDrawerFactory
+import com.mindsync.library.util.Dp
+import com.mindsync.library.util.Px
+import com.mindsync.library.util.toDp
+import com.mindsync.library.util.toPx
 
 class NodeView @JvmOverloads constructor(
     private val mindMapManager: MindMapManager,

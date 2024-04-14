@@ -1,4 +1,4 @@
-package com.mindsync.mindmap
+package com.mindsync.library
 
 import android.content.Context
 import android.graphics.PointF
@@ -6,16 +6,17 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.FrameLayout
-import boostcamp.and07.mindsync.ui.view.model.LayoutMode
-import com.mindsync.mindmap.animator.FitAnimation
-import com.mindsync.mindmap.animator.MindMapAnimator
-import com.mindsync.mindmap.animator.TreeChangeAnimation
-import com.mindsync.mindmap.command.AddNodeCommand
-import com.mindsync.mindmap.command.RemoveNodeCommand
-import com.mindsync.mindmap.command.UpdateNodeCommand
-import com.mindsync.mindmap.data.Tree
-import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.toPx
+import com.mindsync.library.animator.FitAnimation
+import com.mindsync.library.animator.MindMapAnimator
+import com.mindsync.library.animator.TreeChangeAnimation
+import com.mindsync.library.command.AddNodeCommand
+import com.mindsync.library.command.RemoveNodeCommand
+import com.mindsync.library.command.UpdateNodeCommand
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.Tree
+import com.mindsync.library.model.LayoutMode
+import com.mindsync.library.util.Dp
+import com.mindsync.library.util.toPx
 
 
 class MindMapView @JvmOverloads constructor(
@@ -209,7 +210,7 @@ class MindMapView @JvmOverloads constructor(
                 .toPx(context) * 1.4f, Dp(500f).toPx(context)
         )) / screenHeight
 
-        val scale = maxOf(widthScale, heightScale)
+        val scale = maxOf(widthScale, heightScale, DEFAULT_ZOOM)
         val startScaleFactor = scaleFactor
         val endScaleFactor = DEFAULT_ZOOM / scale
         mindMapAnimator.setAnimationStrategy(FitAnimation(

@@ -1,6 +1,7 @@
-package com.mindsync.mindmap.data
+package com.mindsync.library.data
 
-import com.mindsync.mindmap.util.Dp
+import com.mindsync.library.util.Dp
+
 
 sealed class Node(
     open val id: String,

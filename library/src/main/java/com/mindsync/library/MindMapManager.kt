@@ -1,11 +1,12 @@
-package com.mindsync.mindmap
+package com.mindsync.library
 
 import android.content.Context
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.Tree
-import com.mindsync.mindmap.layout.MeasureTextSize
-import com.mindsync.mindmap.layout.MindMapRightLayoutManager
-import com.mindsync.mindmap.util.Dp
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.Tree
+import com.mindsync.library.layout.MeasureTextSize
+import com.mindsync.library.layout.MindMapRightLayoutManager
+import com.mindsync.library.util.Dp
+
 
 class MindMapManager(context: Context) {
     private var tree: Tree = Tree(context)

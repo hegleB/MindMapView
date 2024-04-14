@@ -1,4 +1,4 @@
-package boostcamp.and07.mindsync.ui.view.model
+package com.mindsync.library.model
 
 enum class LayoutMode {
     NONE,

@@ -1,4 +1,4 @@
-package com.mindsync.mindmap.node
+package com.mindsync.library.node
 
 import android.graphics.Canvas
 

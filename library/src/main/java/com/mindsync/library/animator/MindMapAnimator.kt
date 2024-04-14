@@ -1,4 +1,4 @@
-package com.mindsync.mindmap.animator
+package com.mindsync.library.animator
 
 class MindMapAnimator {
     private var animationStrategy: AnimationStrategy? = null

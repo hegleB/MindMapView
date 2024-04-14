@@ -1,4 +1,4 @@
-package com.mindsync.mindmap.util
+package com.mindsync.library.util
 
 enum class ExceptionMessage(val message: String) {
     ERROR_MESSAGE_INVALID_NODE_ID("Node Id is invalid"),

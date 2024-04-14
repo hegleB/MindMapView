@@ -1,8 +1,8 @@
-package com.mindsync.mindmap.util
+package com.mindsync.library.util
 
-import bcom.mindsync.mindmap.util.IdGenerator
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.data.RectanglePath
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.RectanglePath
+
 
 object NodeGenerator {
     fun makeNode(

@@ -1,4 +1,4 @@
-package com.mindsync.mindmap
+package com.mindsync.library
 
 import android.content.Context
 import android.content.res.Configuration
@@ -7,11 +7,12 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import boostcamp.and07.mindsync.ui.view.model.DrawInfo
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.util.toPx
+import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.model.DrawInfo
+import com.mindsync.library.util.toPx
+
 
 class LineView @JvmOverloads constructor(
     private val mindMapManager: MindMapManager,

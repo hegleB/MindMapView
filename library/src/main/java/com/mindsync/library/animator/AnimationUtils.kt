@@ -1,4 +1,4 @@
-package com.mindsync.mindmap.animator
+package com.mindsync.library.animator
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder

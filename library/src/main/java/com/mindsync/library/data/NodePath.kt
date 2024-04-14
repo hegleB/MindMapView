@@ -1,6 +1,6 @@
-package com.mindsync.mindmap.data
+package com.mindsync.library.data
 
-import com.mindsync.mindmap.util.Dp
+import com.mindsync.library.util.Dp
 
 sealed class NodePath(open var centerX: Dp, open var centerY: Dp) {
     abstract fun adjustPath(horizontalSpacing: Dp, totalHeight: Dp): NodePath

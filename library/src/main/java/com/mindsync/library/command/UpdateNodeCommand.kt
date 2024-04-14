@@ -1,9 +1,10 @@
-package com.mindsync.mindmap.command
+package com.mindsync.library.command
 
-import com.mindsync.mindmap.MindMapManager
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
+import com.mindsync.library.MindMapManager
+import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.RectangleNode
+
 
 class UpdateNodeCommand(
     private val mindMapManager: MindMapManager,

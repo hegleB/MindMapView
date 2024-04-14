@@ -1,4 +1,4 @@
-package com.mindsync.mindmap.command
+package com.mindsync.library.command
 
 interface MindMapCommand {
     fun execute()

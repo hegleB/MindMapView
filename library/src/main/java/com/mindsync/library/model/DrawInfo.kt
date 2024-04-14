@@ -1,12 +1,12 @@
-package boostcamp.and07.mindsync.ui.view.model
+package com.mindsync.library.model
 
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.text.TextPaint
 import com.mindsync.library.R
-import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.toPx
+import com.mindsync.library.util.Dp
+import com.mindsync.library.util.toPx
 
 class DrawInfo(context: Context) {
     val circlePaint =

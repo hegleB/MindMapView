@@ -1,9 +1,9 @@
-package com.mindsync.mindmap.data
+package com.mindsync.library.data
 
 import android.content.Context
-import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.ExceptionMessage
-import com.mindsync.mindmap.util.NodeGenerator
+import com.mindsync.library.util.Dp
+import com.mindsync.library.util.ExceptionMessage
+import com.mindsync.library.util.NodeGenerator
 
 class Tree {
     private var _nodes: MutableMap<String, Node>
@@ -27,7 +27,7 @@ class Tree {
                         Dp(centerY),
                         Dp(50f),
                     ),
-                "111",
+                "root",
                 listOf(),
             )
     }

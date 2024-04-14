@@ -1,10 +1,11 @@
-package com.mindsync.mindmap.layout
+package com.mindsync.library.layout
 
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.data.Tree
-import com.mindsync.mindmap.util.Dp
+import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.Tree
+import com.mindsync.library.util.Dp
+
 
 class MindMapRightLayoutManager {
     private val horizontalSpacing = Dp(50f)

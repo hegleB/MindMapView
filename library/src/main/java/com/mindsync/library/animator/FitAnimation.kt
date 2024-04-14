@@ -1,7 +1,7 @@
-package com.mindsync.mindmap.animator
+package com.mindsync.library.animator
 
 import android.animation.PropertyValuesHolder
-import com.mindsync.mindmap.animator.AnimationUtils.START_PROCESS
+import com.mindsync.library.animator.AnimationUtils.START_PROCESS
 
 class FitAnimation(
     private val startScaleFactor: Float,

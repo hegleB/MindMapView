@@ -1,8 +1,8 @@
-package com.mindsync.mindmap.animator
+package com.mindsync.library.animator
 
-import com.mindsync.mindmap.MindMapManager
-import com.mindsync.mindmap.animator.AnimationUtils.END_PROCESS
-import com.mindsync.mindmap.animator.AnimationUtils.START_PROCESS
+import com.mindsync.library.MindMapManager
+import com.mindsync.library.animator.AnimationUtils.END_PROCESS
+import com.mindsync.library.animator.AnimationUtils.START_PROCESS
 
 class TreeChangeAnimation(
     private val mindMapManager: MindMapManager,

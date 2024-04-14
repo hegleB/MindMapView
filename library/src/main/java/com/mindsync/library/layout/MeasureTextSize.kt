@@ -1,15 +1,15 @@
-package com.mindsync.mindmap.layout
+package com.mindsync.library.layout
 
 import android.content.Context
 import android.graphics.Rect
-import boostcamp.and07.mindsync.ui.view.model.DrawInfo
-import com.mindsync.mindmap.data.CircleNode
-import com.mindsync.mindmap.data.Node
-import com.mindsync.mindmap.data.RectangleNode
-import com.mindsync.mindmap.data.Tree
-import com.mindsync.mindmap.util.Dp
-import com.mindsync.mindmap.util.Px
-import com.mindsync.mindmap.util.toDp
+import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.Node
+import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.Tree
+import com.mindsync.library.model.DrawInfo
+import com.mindsync.library.util.Dp
+import com.mindsync.library.util.Px
+import com.mindsync.library.util.toDp
 
 class MeasureTextSize(private val context: Context) {
     private val drawInfo = DrawInfo(context)
