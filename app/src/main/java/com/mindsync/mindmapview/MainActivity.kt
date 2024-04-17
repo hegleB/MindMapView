@@ -27,7 +27,31 @@ class MainActivity : AppCompatActivity() {
         binding.mindMapView.initialize()
         manager = binding.mindMapView.getMindMapManager()
     }
+    private fun showDialog(
+        operationType: String,
+        selectedNode: Node,
+    ) {
+        val description = if (operationType == "add") "" else selectedNode.description
+        val editDescriptionDialog = EditDescriptionDialog()
+        editDescriptionDialog.setDescription(description)
+        editDescriptionDialog.setSubmitListener { description ->
+            when (operationType) {
+                "add" -> {
+                    binding.mindMapView.addNode(description)
+                }
+
+                "update" -> {
+                    binding.mindMapView.editNodeText(description)
+                }
+
+                else -> return@setSubmitListener
+            }
         }
+        editDescriptionDialog.show(
+            this.supportFragmentManager,
+            "EditDescriptionDialog",
+        )
+    }
 
         button2.setOnClickListener {
             mindMapView.editNodeText("1111")
