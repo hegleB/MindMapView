@@ -12,7 +12,6 @@ import com.mindsync.library.animator.TreeChangeAnimation
 import com.mindsync.library.command.AddNodeCommand
 import com.mindsync.library.command.RemoveNodeCommand
 import com.mindsync.library.command.UpdateNodeCommand
-import com.mindsync.library.data.Node
 import com.mindsync.library.data.Tree
 import com.mindsync.library.model.LayoutMode
 import com.mindsync.library.util.Dp
@@ -44,12 +43,9 @@ class MindMapView @JvmOverloads constructor(
     private var winWidth = 0
     private var winHeight = 0
     private val mindMapAnimator = MindMapAnimator()
+    private lateinit var tree: Tree<*>
 
-    init {
-        initialize()
-    }
-
-    private fun initialize() {
+    fun initialize() {
         lineView = LineView(mindMapManager, context, attrs = null).apply {
             update()
         }
@@ -64,7 +60,6 @@ class MindMapView @JvmOverloads constructor(
         widthMeasureSpec: Int,
         heightMeasureSpec: Int,
     ) {
-
         var width = 0
         var height = 0
         for (index in 0 until childCount) {
@@ -186,7 +181,7 @@ class MindMapView @JvmOverloads constructor(
             addNodeCommand.execute()
         }
         mindMapAnimator.setAnimationStrategy(
-            TreeChangeAnimation(mindMapManager, { updateNodeAndLine() })
+            TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
         )
         mindMapAnimator.executeAnimation()
         requestLayout()
@@ -209,7 +204,6 @@ class MindMapView @JvmOverloads constructor(
             mindMapManager.measureHeight(mindMapManager.getTree().getRootNode())
                 .toPx(context) * 1.4f, Dp(500f).toPx(context)
         )) / screenHeight
-
         val scale = maxOf(widthScale, heightScale, DEFAULT_ZOOM)
         val startScaleFactor = scaleFactor
         val endScaleFactor = DEFAULT_ZOOM / scale
@@ -250,16 +244,17 @@ class MindMapView @JvmOverloads constructor(
         }
     }
 
-    fun updateTree(tree: Tree) {
-        mindMapManager.update(tree)
-        mindMapAnimator.setAnimationStrategy(
-            TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
-        )
-        mindMapAnimator.executeAnimation()
+    fun setTree(tree: Tree<*>) {
+        this.tree = tree
+        mindMapManager.setTree(tree)
     }
 
-    fun getTree(): Tree {
+    fun getTree(): Tree<*> {
         return mindMapManager.getTree()
+    }
+
+    fun getMindMapManager(): MindMapManager {
+        return mindMapManager
     }
 
     private fun updateNodeAndLine() {
