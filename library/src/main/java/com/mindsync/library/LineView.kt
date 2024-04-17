@@ -7,9 +7,9 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.mindsync.library.data.CircleNode
-import com.mindsync.library.data.Node
-import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.CircleNodeData
+import com.mindsync.library.data.NodeData
+import com.mindsync.library.data.RectangleNodeData
 import com.mindsync.library.model.DrawInfo
 import com.mindsync.library.util.toPx
 
@@ -36,7 +36,7 @@ class LineView @JvmOverloads constructor(
 
     fun traverseLine(
         canvas: Canvas,
-        node: Node,
+        node: NodeData<*>,
         depth: Int,
     ) {
         for (toNodeId in node.children) {
@@ -47,8 +47,8 @@ class LineView @JvmOverloads constructor(
     }
 
     private fun drawLine(
-        fromNode: Node,
-        toNode: Node,
+        fromNode: NodeData<*>,
+        toNode: NodeData<*>,
         canvas: Canvas,
     ) {
         val linePaint = getLinePaintForMode()
@@ -58,8 +58,8 @@ class LineView @JvmOverloads constructor(
     }
 
     private fun createPath(
-        fromNode: Node,
-        toNode: Node,
+        fromNode: NodeData<*>,
+        toNode: NodeData<*>,
     ): Path {
         val startX = getNodeEdgeX(fromNode, true)
         val startY = fromNode.path.centerY.toPx(context)
@@ -81,25 +81,27 @@ class LineView @JvmOverloads constructor(
     }
 
     private fun drawPathConditionally(
-        toNode: Node,
+        toNode: NodeData<*>,
         canvas: Canvas,
         path: Path,
         linePaint: Paint,
     ) {
-        if (mindMapManager.getMovingState().not() || mindMapManager.getSelectedNode()?.id != toNode.id) {
+        if (mindMapManager.getMovingState()
+                .not() || mindMapManager.getSelectedNode()?.id != toNode.id
+        ) {
             canvas.drawPath(path, linePaint)
         }
     }
 
     private fun getNodeEdgeX(
-        node: Node,
+        node: NodeData<*>,
         isStart: Boolean,
     ): Float {
         val nodeCenterX = node.path.centerX.toPx(context)
         val widthOffset =
             when (node) {
-                is CircleNode -> node.path.radius.toPx(context)
-                is RectangleNode -> node.path.width.toPx(context) / 2
+                is CircleNodeData -> node.path.radius.toPx(context)
+                is RectangleNodeData -> node.path.width.toPx(context) / 2
             }
         return if (isStart) nodeCenterX + widthOffset else nodeCenterX - widthOffset
     }

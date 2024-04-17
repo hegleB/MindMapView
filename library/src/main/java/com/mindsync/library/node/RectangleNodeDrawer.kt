@@ -5,13 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.RectangleNodeData
 import com.mindsync.library.model.DrawInfo
 import com.mindsync.library.util.Dp
 import com.mindsync.library.util.toPx
 
 class RectangleNodeDrawer(
-    private val node: RectangleNode,
+    private val node: RectangleNodeData,
     private val drawInfo: DrawInfo,
     private val context: Context,
     private val paint: Paint,

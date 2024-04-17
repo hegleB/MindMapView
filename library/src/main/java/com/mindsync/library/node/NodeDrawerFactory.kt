@@ -2,13 +2,13 @@ package com.mindsync.library.node
 
 import android.content.Context
 import com.mindsync.library.R
-import com.mindsync.library.data.CircleNode
-import com.mindsync.library.data.Node
-import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.CircleNodeData
+import com.mindsync.library.data.NodeData
+import com.mindsync.library.data.RectangleNodeData
 import com.mindsync.library.model.DrawInfo
 
 class NodeDrawerFactory(
-    private val node: Node,
+    private val node: NodeData<*>,
     private val context: Context,
     private val depth: Int = 0,
 ) {
@@ -23,7 +23,7 @@ class NodeDrawerFactory(
 
     fun createStrokeNode(): NodeDrawer {
         return when(node) {
-            is RectangleNode -> {
+            is RectangleNodeData -> {
                 RectangleNodeDrawer(
                     node,
                     drawInfo,
@@ -31,7 +31,7 @@ class NodeDrawerFactory(
                     drawInfo.strokePaint,
                 )
             }
-            is CircleNode -> {
+            is CircleNodeData -> {
                 CircleNodeDrawer(
                     node,
                     drawInfo,
@@ -44,7 +44,7 @@ class NodeDrawerFactory(
 
     fun createNodeDrawer(): NodeDrawer {
         return when (node) {
-            is RectangleNode -> {
+            is RectangleNodeData -> {
                 val paint = drawInfo.rectanglePaint.apply {
                     color = nodeColors[(depth - 1) % nodeColors.size]
                 }
@@ -56,7 +56,7 @@ class NodeDrawerFactory(
                 )
             }
 
-            is CircleNode -> {
+            is CircleNodeData -> {
                 CircleNodeDrawer(
                     node,
                     drawInfo,

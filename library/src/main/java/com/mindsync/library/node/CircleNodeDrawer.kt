@@ -5,12 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import com.mindsync.library.data.CircleNode
+import com.mindsync.library.data.CircleNodeData
 import com.mindsync.library.model.DrawInfo
 import com.mindsync.library.util.toPx
 
 class CircleNodeDrawer(
-    private val node: CircleNode,
+    private val node: CircleNodeData,
     private val drawInfo: DrawInfo,
     private val context: Context,
     private val paint: Paint,

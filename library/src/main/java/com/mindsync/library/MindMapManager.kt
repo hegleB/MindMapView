@@ -1,32 +1,29 @@
 package com.mindsync.library
 
 import android.content.Context
-import com.mindsync.library.data.Node
+import com.mindsync.library.data.NodeData
 import com.mindsync.library.data.Tree
 import com.mindsync.library.layout.MeasureTextSize
 import com.mindsync.library.layout.MindMapRightLayoutManager
 import com.mindsync.library.util.Dp
+import com.mindsync.mindmapview.crdt.CrdtTree
 
 
 class MindMapManager(context: Context) {
-    private var tree: Tree = Tree(context)
-    private var selectNode: Node? = null
+    private lateinit var tree: Tree<*>
+    private var selectNode: NodeData<*>? = null
     private val rightLayoutManager = MindMapRightLayoutManager()
-    private val measureTextSize = MeasureTextSize(context)
+    private val measureTextSize: MeasureTextSize = MeasureTextSize(context)
     private var isMoving = false
 
-    init {
-        measureTextSize.traverseTextHead(tree)
-    }
-
-    fun update(tree: Tree) {
+    fun update(tree: Tree<*>) {
         this.tree = tree
         if (isMoving.not()) {
             measureTextSize.traverseTextHead(this.tree)
         }
     }
 
-    fun update(target: Node) {
+    fun update(target: NodeData<*>) {
         tree.updateNode(
             target.id,
             target.description,
@@ -37,20 +34,16 @@ class MindMapManager(context: Context) {
         measureTextSize.traverseTextHead(tree)
     }
 
-    fun getTree(): Tree {
-        return this.tree
-    }
-
-    fun addNode(node: Node, description: String) {
+    fun addNode(node: NodeData<*>, description: String) {
         this.tree.addNode(node.id, node.parentId, description)
         update(node)
     }
 
-    fun removeNode(node: Node) {
+    fun removeNode(node: NodeData<*>) {
         this.tree.removeNode(node.id)
     }
 
-    fun setSelectedNode(node: Node?) {
+    fun setSelectedNode(node: NodeData<*>?) {
         this.selectNode = node
     }
 
@@ -66,7 +59,7 @@ class MindMapManager(context: Context) {
         return this.isMoving
     }
 
-    fun getSelectedNode(): Node? {
+    fun getSelectedNode(): NodeData<*>? {
         return this.selectNode
     }
 
@@ -74,16 +67,16 @@ class MindMapManager(context: Context) {
         rightLayoutManager.arrangeNode(this.tree)
     }
 
-    fun measureHeight(node: Node): Dp {
+    fun measureHeight(node: NodeData<*>): Dp {
         return rightLayoutManager.measureChildHeight(node, tree)
     }
 
-    fun measureWidth(node: Node): Dp {
+    fun measureWidth(node: NodeData<*>): Dp {
         return rightLayoutManager.measureChildWidth(node, tree)
     }
 
-    fun deepCopyTree(): Map<String, Node> {
-        return tree.nodes.entries.associate { node ->
+    fun deepCopyTree(): Map<String, NodeData<*>> {
+        return this.tree.nodes.entries.associate { node ->
             node.key to node.value
         }
     }

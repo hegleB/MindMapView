@@ -7,9 +7,9 @@ import android.view.MotionEvent
 import android.view.View
 import com.mindsync.library.animator.MindMapAnimator
 import com.mindsync.library.animator.TreeChangeAnimation
-import com.mindsync.library.data.CircleNode
-import com.mindsync.library.data.Node
-import com.mindsync.library.data.RectangleNode
+import com.mindsync.library.data.CircleNodeData
+import com.mindsync.library.data.NodeData
+import com.mindsync.library.data.RectangleNodeData
 import com.mindsync.library.layout.MindMapRightLayoutManager
 import com.mindsync.library.model.DrawInfo
 import com.mindsync.library.node.NodeDrawerFactory
@@ -25,7 +25,7 @@ class NodeView @JvmOverloads constructor(
     attrs: AttributeSet?,
 ) : View(context, attrs) {
     private val drawInfo = DrawInfo(context)
-    private var attachedNode: Node? = null
+    private var attachedNode: NodeData<*>? = null
     private val rightLayoutManager = MindMapRightLayoutManager()
     private val mindMapAnimator = MindMapAnimator()
 
@@ -48,7 +48,7 @@ class NodeView @JvmOverloads constructor(
             }
 
             MotionEvent.ACTION_MOVE -> {
-                if (mindMapManager.getSelectedNode() is CircleNode) {
+                if (mindMapManager.getSelectedNode() is CircleNodeData) {
                     mindMapManager.setNotMoving()
                 } else {
                     mindMapManager.setMoving()
@@ -91,7 +91,7 @@ class NodeView @JvmOverloads constructor(
 
     }
 
-    private fun attachNode(selectedNode: Node) {
+    private fun attachNode(selectedNode: NodeData<*>) {
         attachedNode?.let { attachedNode ->
             mindMapManager.getTree().doPreorderTraversal { node ->
                 if (node.id == selectedNode.id) {
@@ -110,8 +110,8 @@ class NodeView @JvmOverloads constructor(
         dx: Float,
         dy: Float,
     ) {
-        var attachedNode: Node? = null
-        if (mindMapManager.getSelectedNode() is CircleNode) return
+        var attachedNode: NodeData<*>? = null
+        if (mindMapManager.getSelectedNode() is CircleNodeData) return
         mindMapManager.getTree().doPreorderTraversal { node ->
             mindMapManager.getSelectedNode()?.let {
                 if (isInsideNode(node, dx, dy) && mindMapManager.getSelectedNode()?.id != node.id) {
@@ -132,18 +132,18 @@ class NodeView @JvmOverloads constructor(
         dy: Float,
     ) {
         mindMapManager.getSelectedNode()?.let { selectedNode ->
-            if (selectedNode is CircleNode) return
+            if (selectedNode is CircleNodeData) return
             traverseMovedNode(mindMapManager.getTree().getRootNode(), selectedNode, dx, dy)
             mindMapManager.update(mindMapManager.getTree())
-            rightLayoutManager.arrangeNode(mindMapManager.getTree(), selectedNode as RectangleNode)
+            rightLayoutManager.arrangeNode(mindMapManager.getTree(), selectedNode as RectangleNodeData)
         }
         lineView.update()
         invalidate()
     }
 
     private fun traverseMovedNode(
-        node: Node,
-        target: Node,
+        node: NodeData<*>,
+        target: NodeData<*>,
         dx: Float,
         dy: Float,
     ) {
@@ -177,7 +177,7 @@ class NodeView @JvmOverloads constructor(
         x: Float,
         y: Float,
     ) {
-        var rangeResultNode: Node? = null
+        var rangeResultNode: NodeData<*>? = null
         mindMapManager.getTree().doPreorderTraversal { node ->
             if (isInsideNode(node, x, y)) {
                 rangeResultNode = node
@@ -194,12 +194,12 @@ class NodeView @JvmOverloads constructor(
     private fun drawAttachedNode(canvas: Canvas) {
         attachedNode?.let { attachedNode ->
             val height = when (attachedNode) {
-                is RectangleNode -> attachedNode.path.height
-                is CircleNode -> attachedNode.path.radius + Dp(ATTACH_CIRCLE_NODE_RANGE_VALUE)
+                is RectangleNodeData -> attachedNode.path.height
+                is CircleNodeData -> attachedNode.path.radius + Dp(ATTACH_CIRCLE_NODE_RANGE_VALUE)
             }
             val width = when (attachedNode) {
-                is RectangleNode -> attachedNode.path.width
-                is CircleNode -> attachedNode.path.radius + Dp(ATTACH_CIRCLE_NODE_RANGE_VALUE)
+                is RectangleNodeData -> attachedNode.path.width
+                is CircleNodeData -> attachedNode.path.radius + Dp(ATTACH_CIRCLE_NODE_RANGE_VALUE)
             }
             val radius = maxOf(height.toPx(context), width.toPx(context))
             canvas.drawCircle(
@@ -214,7 +214,7 @@ class NodeView @JvmOverloads constructor(
 
     private fun makeStrokeNode(
         canvas: Canvas,
-        node: Node,
+        node: NodeData<*>,
     ) {
         val nodeDrawerFactory = NodeDrawerFactory(node, context)
         val nodeDrawer = nodeDrawerFactory.createStrokeNode()
@@ -222,12 +222,12 @@ class NodeView @JvmOverloads constructor(
     }
 
     private fun isInsideNode(
-        node: Node,
+        node: NodeData<*>,
         x: Float,
         y: Float,
     ): Boolean {
         when (node) {
-            is CircleNode -> {
+            is CircleNodeData -> {
                 if (x in (node.path.centerX - node.path.radius).toPx(context)..(node.path.centerX + node.path.radius).toPx(
                         context
                     ) && y in (node.path.centerY - node.path.radius).toPx(context)..(node.path.centerY + node.path.radius).toPx(
@@ -238,7 +238,7 @@ class NodeView @JvmOverloads constructor(
                 }
             }
 
-            is RectangleNode -> {
+            is RectangleNodeData -> {
                 if (x in node.path.leftX().toPx(context)..node.path.rightX()
                         .toPx(context) && y in node.path.topY().toPx(context)..node.path.bottomY()
                         .toPx(context)
@@ -252,7 +252,7 @@ class NodeView @JvmOverloads constructor(
 
     private fun drawNode(
         canvas: Canvas,
-        node: Node,
+        node: NodeData<*>,
         depth: Int,
     ) {
         val nodeDrawerFactory = NodeDrawerFactory(node, context, depth)
