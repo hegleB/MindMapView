@@ -257,6 +257,10 @@ class MindMapView @JvmOverloads constructor(
         return mindMapManager
     }
 
+    fun setNodeClickListener(nodeClickListener: NodeClickListener) {
+        nodeView.listener = nodeClickListener
+    }
+
     private fun updateNodeAndLine() {
         nodeView.update()
         lineView.update()
