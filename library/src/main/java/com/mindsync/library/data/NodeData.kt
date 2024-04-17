@@ -3,7 +3,7 @@ package com.mindsync.library.data
 import com.mindsync.library.util.Dp
 
 
-sealed class Node(
+sealed class NodeData<T>(
     open val id: String,
     open val parentId: String?,
     open val path: NodePath,
@@ -14,10 +14,10 @@ sealed class Node(
     open var isDrawingLine: Boolean,
     open var strokeWidth: Float,
 ) : java.io.Serializable {
-    abstract fun adjustPosition(horizontalSpacing: Dp, totalHeight: Dp): Node
+    abstract fun adjustPosition(horizontalSpacing: Dp, totalHeight: Dp): NodeData<T>
 }
 
-data class CircleNode(
+data class CircleNodeData(
     override val id: String,
     override val parentId: String?,
     override val path: CirclePath = CirclePath(Dp(0f), Dp(0f), Dp(0f)),
@@ -27,13 +27,13 @@ data class CircleNode(
     override var isAnimating: Boolean = false,
     override var isDrawingLine: Boolean = false,
     override var strokeWidth: Float = 1f,
-) : Node(id, parentId, path, description, children, alpha, isAnimating, isDrawingLine, strokeWidth) {
-    override fun adjustPosition(horizontalSpacing: Dp, totalHeight: Dp): Node {
+) : NodeData<CircleNodeData>(id, parentId, path, description, children, alpha, isAnimating, isDrawingLine, strokeWidth) {
+    override fun adjustPosition(horizontalSpacing: Dp, totalHeight: Dp): NodeData<CircleNodeData> {
         return this.copy(path = path.adjustPath(horizontalSpacing, totalHeight))
     }
 }
 
-data class RectangleNode(
+data class RectangleNodeData(
     override val id: String,
     override val parentId: String,
     override val path: RectanglePath = RectanglePath(Dp(0f), Dp(0f), Dp(0f), Dp(0f)),
@@ -43,8 +43,8 @@ data class RectangleNode(
     override var isAnimating: Boolean = false,
     override var isDrawingLine: Boolean = false,
     override var strokeWidth: Float = 1f,
-) : Node(id, parentId, path, description, children, alpha, isAnimating, isDrawingLine, strokeWidth) {
-    override fun adjustPosition(horizontalSpacing: Dp, totalHeight: Dp): Node {
+) : NodeData<RectangleNodeData>(id, parentId, path, description, children, alpha, isAnimating, isDrawingLine, strokeWidth) {
+    override fun adjustPosition(horizontalSpacing: Dp, totalHeight: Dp): NodeData<RectangleNodeData> {
         return this.copy(path = path.adjustPath(horizontalSpacing, totalHeight))
     }
 }
