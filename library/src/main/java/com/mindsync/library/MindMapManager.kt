@@ -80,4 +80,14 @@ class MindMapManager(context: Context) {
             node.key to node.value
         }
     }
+
+    fun setTree(tree: Tree<*>) {
+        this.tree = tree
+        measureTextSize.traverseTextHead(tree)
+    }
+
+    fun getTree(): Tree<*> {
+        return this.tree
+    }
+
 }
