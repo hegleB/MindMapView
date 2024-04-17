@@ -1,27 +1,32 @@
 package com.mindsync.mindmapview
 
 import android.os.Bundle
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.mindsync.mindmap.MindMapView
+import com.mindsync.library.MindMapManager
+import com.mindsync.library.data.Tree
+import com.mindsync.mindmapview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel by viewModels<MindMapViewModel>()
+    private lateinit var manager: MindMapManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val mindMapView = findViewById<MindMapView>(R.id.mindMapView)
-        val button = findViewById<Button>(R.id.button)
-        val button1 = findViewById<Button>(R.id.button1)
-        val button2 = findViewById<Button>(R.id.button2)
-        val button3 = findViewById<Button>(R.id.button3)
-        button.setOnClickListener {
-            mindMapView.addNode("test")
-        }
-        button1.setOnClickListener {
-            mindMapView.removeNode()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+        setBinding()
+        init()
+    private fun setBinding() {
+        binding.vm = viewModel
+    }
+
+    private fun init() {
+        val tree = Tree<Node>(this)
+        binding.mindMapView.setTree(tree)
+        binding.mindMapView.initialize()
+        manager = binding.mindMapView.getMindMapManager()
+    }
         }
 
         button2.setOnClickListener {
