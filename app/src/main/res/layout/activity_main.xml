@@ -1,54 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-  <com.mindsync.mindmap.MindMapView
-      android:id="@+id/mindMapView"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="1.0"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/button"
-      app:layout_constraintVertical_bias="1.0" />
+  <data>
 
-  <Button
-      android:id="@+id/button"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="ADD"
-      app:layout_constraintTop_toTopOf="@id/button2"
-      app:layout_constraintEnd_toStartOf="@id/button2" />
+    <variable
+        name="vm"
+        type="com.mindsync.mindmapview.MindMapViewModel" />
 
-  <Button
-      android:id="@+id/button1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Remove"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+    <import type="android.view.View" />
+  </data>
 
-  <Button
-      android:id="@+id/button2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Edit"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".ui.mindmap.MindMapFragment">
 
-  <Button
-      android:id="@+id/button3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Fit"
-      app:layout_constraintTop_toTopOf="@id/button1"
-      app:layout_constraintBottom_toBottomOf="@id/button1"
-      app:layout_constraintStart_toEndOf="@id/button1"/>
+    <com.mindsync.library.MindMapView
+        android:id="@+id/mind_map_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/view_mind_map_side_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="@{vm.selectedNode != null ? View.VISIBLE : View.GONE}"
+        app:constraint_referenced_ids="imgbtn_mind_map_add,imgbtn_mind_map_remove,imgbtn_mind_map_edit,view_mind_map_side_bar"
+        app:layout_constraintBottom_toBottomOf="@id/view_mind_map_side_bar"
+        app:layout_constraintEnd_toEndOf="@id/view_mind_map_side_bar"
+        app:layout_constraintStart_toStartOf="@id/view_mind_map_side_bar"
+        app:layout_constraintTop_toTopOf="@id/view_mind_map_side_bar" />
+
+    <View
+        android:id="@+id/view_mind_map_side_bar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_mind_map_add"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@id/view_mind_map_side_bar"
+        app:layout_constraintEnd_toStartOf="@id/imgbtn_mind_map_remove"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="@id/view_mind_map_side_bar"
+        app:layout_constraintTop_toTopOf="@id/view_mind_map_side_bar" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_mind_map_remove"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/btn_remove"
+        app:layout_constraintBottom_toBottomOf="@id/view_mind_map_side_bar"
+        app:layout_constraintEnd_toStartOf="@id/imgbtn_mind_map_edit"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/imgbtn_mind_map_add"
+        app:layout_constraintTop_toTopOf="@id/view_mind_map_side_bar"
+        app:removeBtn="@{vm.selectedNode}" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_mind_map_edit"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_outlined_drawing"
+        app:layout_constraintBottom_toBottomOf="@id/view_mind_map_side_bar"
+        app:layout_constraintEnd_toEndOf="@id/view_mind_map_side_bar"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/imgbtn_mind_map_remove"
+        app:layout_constraintTop_toTopOf="@id/view_mind_map_side_bar" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_mind_map_fit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_fit_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
