@@ -5,8 +5,8 @@ import com.mindsync.library.util.Dp
 import com.mindsync.library.util.ExceptionMessage
 import com.mindsync.library.util.NodeGenerator
 
-class Tree {
-    private var _nodes: MutableMap<String, Node>
+class Tree<T> {
+    private var _nodes: MutableMap<String, NodeData<*>>
     val nodes get() = _nodes.toMap()
 
     constructor(context: Context) {
@@ -18,7 +18,7 @@ class Tree {
         val centerX = screenWidth / displayMetrics.density / 2
         val centerY = screenHeight / displayMetrics.density / 2
         _nodes[ROOT_ID] =
-            CircleNode(
+            CircleNodeData(
                 id = ROOT_ID,
                 parentId = null,
                 path =
@@ -29,35 +29,35 @@ class Tree {
                     ),
                 "root",
                 listOf(),
-            )
+            ) as NodeData<T>
     }
 
-    constructor(nodes: Map<String, Node>) {
+    constructor(nodes: Map<String, NodeData<*>>) {
         this._nodes = nodes.toMutableMap()
     }
 
-    fun copy(nodes: Map<String, Node>): Tree {
+    fun copy(nodes: Map<String, NodeData<T>>): Tree<T> {
         return Tree(nodes)
     }
 
-    fun getRootNode(): CircleNode {
+    fun getRootNode(): CircleNodeData {
         _nodes[ROOT_ID]
             ?: throw IllegalArgumentException(ExceptionMessage.ERROR_MESSAGE_ROOT_NODE_NOT_EXIST.message)
-        return _nodes[ROOT_ID] as CircleNode
+        return _nodes[ROOT_ID] as CircleNodeData
     }
 
-    fun setRootNode(root: CircleNode) {
+    fun setRootNode(root: NodeData<*>) {
         _nodes[ROOT_ID] = root
     }
 
     fun setNode(
         id: String,
-        node: Node,
+        nodeData: NodeData<*>,
     ) {
-        _nodes[id] = node
+        _nodes[id] = nodeData
     }
 
-    fun getNode(id: String): Node {
+    fun getNode(id: String?): NodeData<*> {
         return _nodes[id]
             ?: throw IllegalArgumentException(ExceptionMessage.ERROR_MESSAGE_INVALID_NODE_ID.message)
     }
@@ -70,20 +70,20 @@ class Tree {
         if (_nodes[targetId] != null) throw IllegalArgumentException(ExceptionMessage.ERROR_MESSAGE_DUPLICATED_NODE.message)
         if (parentId == null) throw IllegalArgumentException(ExceptionMessage.ERROR_MESSAGE_PARENT_NODE_NOT_EXIST.message)
         val newNode =
-            NodeGenerator.makeNode(content, parentId).copy(id = targetId, parentId = parentId)
+            NodeGenerator.makeNode(RectangleNodeData::class, description = content, parentId = parentId)
+                .copy(id = targetId, parentId = parentId)
         val parentNode =
             _nodes[parentId] ?: throw IllegalArgumentException(
                 ExceptionMessage.ERROR_MESSAGE_PARENT_NODE_NOT_EXIST.message,
             )
         val newChildren = parentNode.children.toMutableList()
         newChildren.add(targetId)
-        val newParent =
-            when (parentNode) {
-                is CircleNode -> parentNode.copy(children = newChildren)
-                is RectangleNode -> parentNode.copy(children = newChildren)
-            }
-        _nodes[parentId] = newParent
-        _nodes[targetId] = newNode
+        val newParent = when (parentNode) {
+            is CircleNodeData -> parentNode.copy(children = newChildren)
+            is RectangleNodeData -> parentNode.copy(children = newChildren)
+        }
+        _nodes[parentId] = newParent as NodeData<T>
+        _nodes[targetId] = newNode as NodeData<T>
     }
 
     fun attachNode(
@@ -95,20 +95,19 @@ class Tree {
 
         val newTargetNode =
             when (targetNode) {
-                is CircleNode -> targetNode.copy(parentId = parentId)
-                is RectangleNode -> targetNode.copy(parentId = parentId)
+                is CircleNodeData -> targetNode.copy(parentId = parentId)
+                is RectangleNodeData -> targetNode.copy(parentId = parentId)
             }
         val parentNode = nodes[parentId] ?: return
         val newNodes = parentNode.children.toMutableList()
         newNodes.add(targetId)
         val newParentNode =
             when (parentNode) {
-                is CircleNode -> parentNode.copy(children = newNodes)
-                is RectangleNode -> parentNode.copy(children = newNodes)
+                is CircleNodeData -> parentNode.copy(children = newNodes)
+                is RectangleNodeData -> parentNode.copy(children = newNodes)
             }
-
-        _nodes[targetId] = newTargetNode
-        _nodes[parentId] = newParentNode
+        _nodes[targetId] = newTargetNode as NodeData<T>
+        _nodes[parentId] = newParentNode as NodeData<T>
     }
 
     fun removeNode(targetId: String) {
@@ -124,11 +123,10 @@ class Tree {
             val newChildren = parentNode.children.filter { id -> id != targetId }
             val newParent =
                 when (parentNode) {
-                    is CircleNode -> parentNode.copy(children = newChildren)
-
-                    is RectangleNode -> parentNode.copy(children = newChildren)
+                    is CircleNodeData -> parentNode.copy(children = newChildren)
+                    is RectangleNodeData -> parentNode.copy(children = newChildren)
                 }
-            _nodes[parentId] = newParent
+            _nodes[parentId] = newParent as NodeData<T>
         } ?: throw IllegalArgumentException(ExceptionMessage.ERROR_MESSAGE_ROOT_CANT_REMOVE.message)
     }
 
@@ -144,8 +142,8 @@ class Tree {
                 ?: throw IllegalArgumentException(ExceptionMessage.ERROR_MESSAGE_TARGET_NODE_NOT_EXIST.message)
         val newTargetNode =
             when (targetNode) {
-                is CircleNode -> targetNode.copy(description = description)
-                is RectangleNode ->
+                is CircleNodeData -> targetNode.copy(description = description)
+                is RectangleNodeData ->
                     targetNode.copy(
                         path =
                             targetNode.path.copy(
@@ -160,22 +158,22 @@ class Tree {
     }
 
     fun doPreorderTraversal(
-        node: Node = getRootNode(),
-        action: (node: Node) -> Unit,
+        nodeData: NodeData<*> = getRootNode(),
+        action: (nodeData: NodeData<*>) -> Unit,
     ) {
-        action.invoke(node)
-        node.children.forEach { childId ->
+        action.invoke(nodeData)
+        nodeData.children.forEach { childId ->
             doPreorderTraversal(getNode(childId), action)
         }
     }
 
     fun doPreorderTraversal(
-        node: Node = getRootNode(),
+        nodeData: NodeData<*> = getRootNode(),
         depth: Int = 0,
-        action: (node: Node, depth: Int) -> Unit,
+        action: (nodeData: NodeData<*>, depth: Int) -> Unit,
     ) {
-        action.invoke(node, depth)
-        node.children.forEach { childId ->
+        action.invoke(nodeData, depth)
+        nodeData.children.forEach { childId ->
             doPreorderTraversal(getNode(childId), depth + 1, action)
         }
     }
