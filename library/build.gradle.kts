@@ -31,6 +31,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    publishing {
+        singleVariant("release")
+    }
 }
 
 dependencies {
@@ -49,7 +52,7 @@ publishing {
                 from(components["release"])
                 groupId = "com.github.hegleB"
                 artifactId = "MindMapView"
-                version = "0.0.10"
+                version = "0.0.11"
             }
         }
     }
