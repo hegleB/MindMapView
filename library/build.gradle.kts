@@ -45,7 +45,7 @@ dependencies {
 publishing {
     publications {
         afterEvaluate {
-            create<MavenPublication>("release") {
+            register<MavenPublication>("release") {
                 from(components["release"])
                 groupId = "com.github.hegleB"
                 artifactId = "MindMapView"
