@@ -20,7 +20,6 @@ class DrawInfo(context: Context) {
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
             textSize = Dp(12f).toPx(context)
-//            typeface = ResourcesCompat.getFont(context, R.font.pretendard_bold)
         }
     val strokePaint =
         Paint().apply {
