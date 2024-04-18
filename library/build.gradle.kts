@@ -49,13 +49,7 @@ publishing {
                 from(components["release"])
                 groupId = "com.github.hegleB"
                 artifactId = "MindMapView"
-                version = "0.0.8"
-            }
-            create<MavenPublication>("debug") {
-                from(components["debug"])
-                groupId = "com.github.hegleB"
-                artifactId = "MindMapView"
-                version = "0.0.8"
+                version = "0.0.9"
             }
         }
     }
