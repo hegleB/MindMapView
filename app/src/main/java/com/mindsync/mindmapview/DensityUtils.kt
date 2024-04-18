@@ -2,7 +2,6 @@ package com.mindsync.mindmapview
 
 import android.content.Context
 import android.util.TypedValue
-import kotlinx.serialization.Serializable
 
 data class Dp(val dpVal: Float) {
     operator fun plus(dpValue: Dp): Dp {

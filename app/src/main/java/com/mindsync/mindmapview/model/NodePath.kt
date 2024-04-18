@@ -1,7 +1,6 @@
 package com.mindsync.mindmapview.model
 
 import com.mindsync.mindmapview.Dp
-import kotlinx.serialization.Serializable
 
 sealed class NodePath(open val centerX: Dp, open val centerY: Dp) {
     abstract fun adjustPath(

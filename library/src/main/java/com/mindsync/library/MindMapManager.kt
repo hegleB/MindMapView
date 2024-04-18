@@ -6,8 +6,6 @@ import com.mindsync.library.data.Tree
 import com.mindsync.library.layout.MeasureTextSize
 import com.mindsync.library.layout.MindMapRightLayoutManager
 import com.mindsync.library.util.Dp
-import com.mindsync.mindmapview.crdt.CrdtTree
-
 
 class MindMapManager(context: Context) {
     private lateinit var tree: Tree<*>
