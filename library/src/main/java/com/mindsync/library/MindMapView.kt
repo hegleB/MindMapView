@@ -1,11 +1,15 @@
 package com.mindsync.library
 
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.PointF
+import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.FrameLayout
+import androidx.core.content.res.ResourcesCompat
 import com.mindsync.library.animator.FitAnimation
 import com.mindsync.library.animator.MindMapAnimator
 import com.mindsync.library.animator.TreeChangeAnimation
@@ -19,8 +23,10 @@ import com.mindsync.library.util.toPx
 
 
 class MindMapView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
-) : FrameLayout(context, attrs) {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0,
+) : FrameLayout(context, attrs, defStyle) {
     private var scaleFactor = DEFAULT_ZOOM
     private val focusPoint = PointF()
     private val scaleGestureDetector = ScaleGestureDetector(
@@ -44,12 +50,25 @@ class MindMapView @JvmOverloads constructor(
     private var winHeight = 0
     private val mindMapAnimator = MindMapAnimator()
     private lateinit var tree: Tree<*>
+    private var typeface: Typeface = Typeface.DEFAULT
+
+    init {
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.NodeFont, defStyle, 0)
+        val fontId = typedArray.getResourceId(R.styleable.NodeFont_nodeFontFamily, -1)
+        if (fontId != -1) {
+            ResourcesCompat.getFont(context, fontId)?.let { typeface ->
+                this.typeface = typeface
+            }
+        }
+        typedArray.recycle()
+    }
 
     fun initialize() {
         lineView = LineView(mindMapManager, context, attrs = null).apply {
             update()
         }
-        nodeView = NodeView(mindMapManager, lineView, context, attrs = null).apply {
+        nodeView = NodeView(mindMapManager, lineView, typeface, context, attrs = null).apply {
             update()
         }
         addView(nodeView)

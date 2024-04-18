@@ -2,9 +2,12 @@ package com.mindsync.library
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import com.mindsync.library.animator.MindMapAnimator
 import com.mindsync.library.animator.TreeChangeAnimation
 import com.mindsync.library.data.CircleNodeData
@@ -21,15 +24,16 @@ import com.mindsync.library.util.toPx
 class NodeView @JvmOverloads constructor(
     private val mindMapManager: MindMapManager,
     private val lineView: LineView,
+    private val typeface: Typeface,
     context: Context,
     attrs: AttributeSet?,
-) : View(context, attrs) {
+    defStyle: Int = 0,
+) : View(context, attrs, defStyle) {
     private val drawInfo = DrawInfo(context)
     private var attachedNode: NodeData<*>? = null
     private val rightLayoutManager = MindMapRightLayoutManager()
     private val mindMapAnimator = MindMapAnimator()
     lateinit var listener: NodeClickListener
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawAttachedNode(canvas)
@@ -135,7 +139,10 @@ class NodeView @JvmOverloads constructor(
             if (selectedNode is CircleNodeData) return
             traverseMovedNode(mindMapManager.getTree().getRootNode(), selectedNode, dx, dy)
             mindMapManager.update(mindMapManager.getTree())
-            rightLayoutManager.arrangeNode(mindMapManager.getTree(), selectedNode as RectangleNodeData)
+            rightLayoutManager.arrangeNode(
+                mindMapManager.getTree(),
+                selectedNode as RectangleNodeData
+            )
         }
         lineView.update()
         invalidate()
@@ -261,8 +268,9 @@ class NodeView @JvmOverloads constructor(
         val nodeDrawer = nodeDrawerFactory.createNodeDrawer()
         val lines = node.description.split("\n")
         nodeDrawer.drawNode(canvas)
-        nodeDrawer.drawText(canvas, lines)
+        nodeDrawer.drawText(canvas, lines, typeface)
     }
+
 
     companion object {
         private const val ATTACH_CIRCLE_NODE_RANGE_VALUE = 15f
