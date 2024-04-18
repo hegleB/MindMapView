@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.Typeface
 import com.mindsync.library.data.RectangleNodeData
 import com.mindsync.library.model.DrawInfo
 import com.mindsync.library.util.Dp
@@ -28,8 +29,11 @@ class RectangleNodeDrawer(
         )
     }
 
-    override fun drawText(canvas: Canvas, lines: List<String>) {
-        val textPaint = drawInfo.textPaint.apply { color = Color.BLACK }
+    override fun drawText(canvas: Canvas, lines: List<String>, fontType: Typeface) {
+        val textPaint = drawInfo.textPaint.apply {
+            color = Color.BLACK
+            typeface = fontType
+        }
         val bounds = Rect()
         if (lines.size > 1) {
             var y =

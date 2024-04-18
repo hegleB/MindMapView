@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.Typeface
 import com.mindsync.library.data.CircleNodeData
 import com.mindsync.library.model.DrawInfo
 import com.mindsync.library.util.toPx
@@ -14,7 +15,7 @@ class CircleNodeDrawer(
     private val drawInfo: DrawInfo,
     private val context: Context,
     private val paint: Paint,
-): NodeDrawer {
+) : NodeDrawer {
     override fun drawNode(canvas: Canvas) {
         canvas.drawCircle(
             node.path.centerX.toPx(context),
@@ -24,8 +25,11 @@ class CircleNodeDrawer(
         )
     }
 
-    override fun drawText(canvas: Canvas, lines: List<String>) {
-        drawInfo.textPaint.color = Color.WHITE
+    override fun drawText(canvas: Canvas, lines: List<String>, fontType: Typeface) {
+        drawInfo.textPaint.apply {
+            color = Color.WHITE
+            typeface = fontType
+        }
         val bounds = Rect()
         if (lines.size > 1) {
             var y =
