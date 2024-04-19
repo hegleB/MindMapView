@@ -34,6 +34,7 @@ class NodeView @JvmOverloads constructor(
     private val rightLayoutManager = MindMapRightLayoutManager()
     private val mindMapAnimator = MindMapAnimator()
     var listener: NodeClickListener? = null
+    var moveListener: NodeMoveListener? = null
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawAttachedNode(canvas)
@@ -105,8 +106,10 @@ class NodeView @JvmOverloads constructor(
             mindMapManager.getTree().doPreorderTraversal { node ->
                 if (node.id == attachedNode.id) {
                     mindMapManager.getTree().attachNode(selectedNode.id, attachedNode.id)
+
                 }
             }
+            this.moveListener?.onMoveListener(mindMapManager.getTree(), selectedNode, attachedNode)
         }
     }
 

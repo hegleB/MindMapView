@@ -289,6 +289,10 @@ class MindMapView @JvmOverloads constructor(
         nodeView.listener = nodeClickListener
     }
 
+    fun setNodeMoveListener(nodeMoveListener: NodeMoveListener) {
+        nodeView.moveListener = nodeMoveListener
+    }
+
     private fun updateNodeAndLine() {
         nodeView.update()
         lineView.update()
