@@ -33,7 +33,7 @@ class NodeView @JvmOverloads constructor(
     private var attachedNode: NodeData<*>? = null
     private val rightLayoutManager = MindMapRightLayoutManager()
     private val mindMapAnimator = MindMapAnimator()
-    private var listener: NodeClickListener? = null
+    var listener: NodeClickListener? = null
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawAttachedNode(canvas)
