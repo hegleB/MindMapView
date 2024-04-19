@@ -277,6 +277,7 @@ class MindMapView @JvmOverloads constructor(
     fun setTree(tree: Tree<*>) {
         this.tree = tree
         mindMapManager.setTree(tree)
+        requestLayout()
     }
 
     fun getTree(): Tree<*> {
