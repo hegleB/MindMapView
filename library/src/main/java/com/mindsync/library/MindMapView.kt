@@ -202,10 +202,7 @@ class MindMapView @JvmOverloads constructor(
             val addNodeCommand = AddNodeCommand(mindMapManager, addNode)
             addNodeCommand.execute()
         }
-        mindMapAnimator.setAnimationStrategy(
-            TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
-        )
-        mindMapAnimator.executeAnimation()
+        animateTreeChange()
         requestLayout()
     }
 
@@ -221,10 +218,7 @@ class MindMapView @JvmOverloads constructor(
         mindMapManager.getSelectedNode()?.let { node ->
             val removeNodeCommand = RemoveNodeCommand(mindMapManager, node)
             removeNodeCommand.execute()
-            mindMapAnimator.setAnimationStrategy(
-                TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
-            )
-            mindMapAnimator.executeAnimation()
+            animateTreeChange()
             requestLayout()
         }
     }
@@ -266,12 +260,15 @@ class MindMapView @JvmOverloads constructor(
         mindMapManager.getSelectedNode()?.let { node ->
             val updateNodeCommand = UpdateNodeCommand(mindMapManager, node, description)
             updateNodeCommand.execute()
-            mindMapAnimator.setAnimationStrategy(
-                TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
-            )
-            mindMapAnimator.executeAnimation()
-            updateNodeAndLine()
+            animateTreeChange()
         }
+    }
+
+    fun animateTreeChange() {
+        mindMapAnimator.setAnimationStrategy(
+            TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
+        )
+        mindMapAnimator.executeAnimation()
     }
 
     fun setTree(tree: Tree<*>) {
