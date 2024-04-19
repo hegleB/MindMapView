@@ -33,7 +33,7 @@ class NodeView @JvmOverloads constructor(
     private var attachedNode: NodeData<*>? = null
     private val rightLayoutManager = MindMapRightLayoutManager()
     private val mindMapAnimator = MindMapAnimator()
-    lateinit var listener: NodeClickListener
+    private var listener: NodeClickListener? = null
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawAttachedNode(canvas)
@@ -192,10 +192,10 @@ class NodeView @JvmOverloads constructor(
         }
         rangeResultNode?.let {
             mindMapManager.setSelectedNode(it)
-            this.listener.onClickListener(it)
+            this.listener?.onClickListener(it)
         } ?: run {
             mindMapManager.setSelectedNode(null)
-            this.listener.onClickListener(null)
+            this.listener?.onClickListener(null)
         }
         invalidate()
     }
