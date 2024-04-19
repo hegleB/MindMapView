@@ -1,11 +1,9 @@
 package com.mindsync.library
 
 import android.content.Context
-import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.Typeface
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.FrameLayout
@@ -16,9 +14,11 @@ import com.mindsync.library.animator.TreeChangeAnimation
 import com.mindsync.library.command.AddNodeCommand
 import com.mindsync.library.command.RemoveNodeCommand
 import com.mindsync.library.command.UpdateNodeCommand
+import com.mindsync.library.data.RectangleNodeData
 import com.mindsync.library.data.Tree
 import com.mindsync.library.model.LayoutMode
 import com.mindsync.library.util.Dp
+import com.mindsync.library.util.NodeGenerator
 import com.mindsync.library.util.toPx
 
 
@@ -51,6 +51,7 @@ class MindMapView @JvmOverloads constructor(
     private val mindMapAnimator = MindMapAnimator()
     private lateinit var tree: Tree<*>
     private var typeface: Typeface = Typeface.DEFAULT
+    private var addNode: RectangleNodeData? = null
 
     init {
         val typedArray =
@@ -196,7 +197,9 @@ class MindMapView @JvmOverloads constructor(
 
     fun addNode(description: String) {
         mindMapManager.getSelectedNode()?.let { node ->
-            val addNodeCommand = AddNodeCommand(mindMapManager, description, node.id)
+            val addNode = NodeGenerator.makeNode(RectangleNodeData::class, description, node.id)
+            setAddNode(addNode)
+            val addNodeCommand = AddNodeCommand(mindMapManager, addNode)
             addNodeCommand.execute()
         }
         mindMapAnimator.setAnimationStrategy(
@@ -204,6 +207,26 @@ class MindMapView @JvmOverloads constructor(
         )
         mindMapAnimator.executeAnimation()
         requestLayout()
+    }
+
+    private fun setAddNode(node: RectangleNodeData) {
+        this.addNode = node
+    }
+
+    fun getAddNode(): RectangleNodeData? {
+        return this.addNode
+    }
+
+    fun removeNode() {
+        mindMapManager.getSelectedNode()?.let { node ->
+            val removeNodeCommand = RemoveNodeCommand(mindMapManager, node)
+            removeNodeCommand.execute()
+            mindMapAnimator.setAnimationStrategy(
+                TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
+            )
+            mindMapAnimator.executeAnimation()
+            requestLayout()
+        }
     }
 
     fun fitScreen() {
@@ -237,18 +260,6 @@ class MindMapView @JvmOverloads constructor(
             applyScaleAndTranslation()
         })
         mindMapAnimator.executeAnimation()
-    }
-
-    fun removeNode() {
-        mindMapManager.getSelectedNode()?.let { node ->
-            val removeNodeCommand = RemoveNodeCommand(mindMapManager, node)
-            removeNodeCommand.execute()
-            mindMapAnimator.setAnimationStrategy(
-                TreeChangeAnimation(mindMapManager) { updateNodeAndLine() }
-            )
-            mindMapAnimator.executeAnimation()
-            requestLayout()
-        }
     }
 
     fun editNodeText(description: String) {

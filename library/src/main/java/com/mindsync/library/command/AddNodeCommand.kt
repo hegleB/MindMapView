@@ -9,24 +9,22 @@ import com.mindsync.library.util.NodeGenerator
 
 class AddNodeCommand(
     private val mindMapManager: MindMapManager,
-    private val description: String,
-    private val parentId: String,
+    private val addNode: RectangleNodeData,
 ) : MindMapCommand {
     override fun execute() {
-        val newNode = NodeGenerator.makeNode(RectangleNodeData::class, description, parentId)
-        val parent = mindMapManager.getTree().getNode(newNode.parentId)
+        val parent = mindMapManager.getTree().getNode(addNode.parentId)
         val parentX = parent.path.centerX
         val parentY = parent.path.centerY
         val width = when (parent) {
             is CircleNodeData -> parent.path.radius
             is RectangleNodeData -> parent.path.width
         }
-        val updatedNode =  newNode.copy(
-            path = newNode.path.copy(
+        val updatedNode =  addNode.copy(
+            path = addNode.path.copy(
                 centerX = parentX + width + Dp(20f),
                 centerY = parentY
             )
         )
-        mindMapManager.addNode(updatedNode, description)
+        mindMapManager.addNode(updatedNode, addNode.description)
     }
 }
