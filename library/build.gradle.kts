@@ -52,7 +52,7 @@ publishing {
                 from(components["release"])
                 groupId = "com.github.hegleB"
                 artifactId = "MindMapView"
-                version = "0.0.12"
+                version = "0.0.7"
             }
         }
     }
